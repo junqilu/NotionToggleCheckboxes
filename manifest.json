@@ -1,22 +1,37 @@
 {
-  "manifest_version": 3,
-  "name": "Notion Auto Checkbox Tool",
-  "version": "1.0",
-  "description": "Automatically shows a button on Notion pages to uncheck checkboxes.",
-  "permissions": [],
-  "host_permissions": [
-    "https://www.notion.so/*"
-  ],
-  "content_scripts": [
-    {
-      "matches": [
+    "manifest_version": 3,
+    "name": "Notion Auto Checkbox Tool",
+    "version": "1.0",
+    "description": "Automatically shows a button on Notion pages to uncheck checkboxes.",
+    "permissions": [
+        "tabs"
+    ],
+    "host_permissions": [
         "https://www.notion.so/*"
-      ],
-      "js": ["content.js"],
-      "run_at": "document_idle"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.notion.so/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "icons": {
+        "16": "icons/icon16.png",
+        "32": "icons/icon32.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "action": {
+        "default_title": "Uncheck All Notion Checkboxes",
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "32": "icons/icon32.png",
+            "48": "icons/icon48.png"
+        }
     }
-  ],
-  "action": {
-    "default_title": "Notion Auto Checkbox Tool"
-  }
 }

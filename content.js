@@ -9,13 +9,24 @@ if (!document.getElementById("notion-toggle-checkboxes")) {
     button.style.right = "20px";
     button.style.zIndex = "9999";
     button.style.padding = "10px 16px";
-    button.style.backgroundColor = "#2F76DA";
-    button.style.color = "#fff";
-    button.style.border = "none";
+    button.style.backgroundColor = "transparent"; // Transparent background
+    button.style.color = "black"; // Black text color
+    button.style.border = "1px solid #2F76DA"; // Blue border
+    button.style.backdropFilter = "blur(4px)";  // for a glassy look
+    button.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.1)";
+    button.style.transition = "background-color 0.2s ease";
+
+
     button.style.borderRadius = "6px";
     button.style.cursor = "pointer";
     button.style.fontSize = "14px";
-    button.style.boxShadow = "0 2px 8px rgba(0,0,0,0.15)";
+
+    button.addEventListener("mouseover", () => {
+        button.style.backgroundColor = "rgba(47, 118, 218, 0.1)";
+    });
+    button.addEventListener("mouseout", () => {
+        button.style.backgroundColor = "transparent";
+    });
 
     button.addEventListener("click", () => {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
