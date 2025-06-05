@@ -1,4 +1,4 @@
-if (!document.getElementById("notion-toggle-button")) {
+function make_button() {
     const button = document.createElement("div");
     button.id = "notion-toggle-button";
     button.style.position = "fixed";
@@ -10,26 +10,32 @@ if (!document.getElementById("notion-toggle-button")) {
     button.style.overflow = "hidden";
     button.style.width = "40px";  // compact default width
     button.style.height = "40px";
-    button.style.padding = "0 12px";
+    button.style.padding = "0 6px"; // 6px is the best result to make the icon in the center of the button before the expansion
     button.style.borderRadius = "20px";
-    button.style.backgroundColor = "transparent";
-    button.style.border = "1px solid #2F76DA";
+    button.style.backgroundColor = "rgb(35,131,226)";
+    button.style.border = "2px solid rgb(35,131,226)";
     button.style.cursor = "pointer";
     button.style.transition = "width 0.3s ease, background-color 0.2s ease";
     button.style.color = "black";
-    button.style.boxShadow = "0 2px 6px rgba(0,0,0,0.1)";
+    button.style.boxShadow = "0 2px 6px rgba(35,131,226,0.1)";
     button.style.backdropFilter = "blur(4px)";
     button.title = "Uncheck all checkboxes";
 
-    // icon image
+    return button;
+}
+
+function make_icon() {
     const icon = document.createElement("img");
-    icon.src = chrome.runtime.getURL("icons/icon16.png");
+    icon.src = "https://github.com/junqilu/NotionToggleCheckboxes/blob/main/icons/icon128_white.png?raw=true";
     icon.alt = "icon";
     icon.style.width = "24px";
     icon.style.height = "24px";
     icon.style.flexShrink = "0";
 
-    // label text
+    return icon;
+}
+
+function make_label() {
     const label = document.createElement("span");
     label.textContent = " Uncheck All Boxes";
     label.style.whiteSpace = "nowrap";
@@ -38,25 +44,45 @@ if (!document.getElementById("notion-toggle-button")) {
     label.style.transition = "opacity 0.2s ease";
     label.style.fontSize = "14px";
 
+    return label;
+}
+
+function make_button_wrapper() {
+    let button = make_button();
+    let icon = make_icon();
+    let label = make_label();
+
     button.appendChild(icon);
     button.appendChild(label);
     document.body.appendChild(button);
 
-    // Expand on hover
+    return {button, icon, label};
+}
+
+function mouse_enter_expand_button(button, icon, label) { // Expand on hover
     button.addEventListener("mouseenter", () => {
-        button.style.width = "200px";
-        button.style.backgroundColor = "rgba(47, 118, 218, 0.1)";
+        icon.src = "https://github.com/junqilu/NotionToggleCheckboxes/blob/main/icons/icon128.png?raw=true";
+        button.style.width = "165px"; // This is the width of the button after expansion
+        button.style.backgroundColor = "transparent"; // After expansion, the background color will change
+        button.style.border = "2px solid black";
         label.style.opacity = "1";
     });
+}
 
-    // Shrink when mouse leaves
+function mouse_leave_shrink_button(button, icon, label) {
     button.addEventListener("mouseleave", () => {
+        icon.src = "https://github.com/junqilu/NotionToggleCheckboxes/blob/main/icons/icon128_white.png?raw=true";
+
         button.style.width = "40px";
-        button.style.backgroundColor = "transparent";
+
+        button.style.backgroundColor = "rgb(35,131,226)";
+        button.style.border = "2px solid rgb(35,131,226)";
+
         label.style.opacity = "0";
     });
+}
 
-    // Click logic: uncheck all checked boxes
+function mouse_click_uncheck_boxes(button) {
     button.addEventListener("click", () => {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         let count = 0;
@@ -66,6 +92,20 @@ if (!document.getElementById("notion-toggle-button")) {
                 count++;
             }
         });
-        console.log(`✅ Unchecked ${count} checkbox(es)`);
+        console.log(`Unchecked ${count} checkbox(es)`);
     });
 }
+
+function main() {
+    if (!document.getElementById("notion-toggle-button")) {
+        let {button, icon, label} = make_button_wrapper();
+
+        mouse_enter_expand_button(button, icon, label);
+
+        mouse_leave_shrink_button(button, icon, label);
+
+        mouse_click_uncheck_boxes(button);
+    }
+}
+
+main();
