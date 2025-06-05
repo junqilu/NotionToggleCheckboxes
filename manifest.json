@@ -1,8 +1,10 @@
 {
     "manifest_version": 3,
     "name": "Notion Auto Checkbox Tool",
+    "author": "Junqi Lu",
     "version": "1.0",
     "description": "Automatically shows a button on Notion pages to uncheck checkboxes.",
+    "homepage_url": "https://github.com/junqilu/NotionToggleCheckboxes",
     "permissions": [
         "tabs"
     ],
